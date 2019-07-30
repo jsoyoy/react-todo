@@ -28,18 +28,20 @@ class AddTodo extends Component {
     list.push({
       id: this.state.todoId,
       name: this.state.addTodoValue,
-      status: false
+      status: 0
     });
     this.setState({ todoList: list });
     this.setState({ addTodoValue: "" });
   }
-  updateList(newList) {
-    this.state.todoList.forEach(item => {
-      if (item.id === newList.id) {
-        item.status = newList.status;
+  updateList(newItem, opType) {
+    let list = this.state.todoList;
+    list.forEach((item, index) => {
+      if (item.id === newItem.id) {
+        opType === 1 ? list.splice(index, 1) : (item = newItem);
       }
     });
-    console.table(this.state.todoList);
+    this.setState({ todoList: list });
+    console.table("todoList", this.state.todoList);
   }
 
   render() {
@@ -52,7 +54,7 @@ class AddTodo extends Component {
             value={this.state.addTodoValue}
             onChange={this.handleChange}
           />
-          <button onClick={this.handleAdd}>add todo</button>
+          <button onClick={this.handleAdd}>添加待办项</button>
         </div>
         <ul>
           {this.state.todoList.map((item, index) => (
